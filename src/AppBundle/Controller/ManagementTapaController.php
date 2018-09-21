@@ -48,6 +48,13 @@ class ManagementTapaController extends Controller
         $tapa->setCreationDate(new \DateTime());
         /** @var File $file */
         $file = $tapa->getPicture();
+
+        if (!isset($file)) {
+            $tapa->setPicture('nopic.jpg');
+
+            return $tapa;
+        }
+
         $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
         $file->move(
             $this->getParameter('tapasImg_dir'),
