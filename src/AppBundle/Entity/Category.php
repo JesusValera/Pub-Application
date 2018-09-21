@@ -45,6 +45,16 @@ class Category
     private $picture;
 
     /**
+     * @ORM\OneToMany(targetEntity="Tapa", mappedBy="category")
+     */
+    private $tapas;
+
+    public function __construct()
+    {
+        $this->tapas = new ArrayCollection();
+    }
+
+    /**
      * Get id.
      *
      * @return int
@@ -124,5 +134,39 @@ class Category
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     * Add tapa
+     *
+     * @param Tapa $tapa
+     *
+     * @return Category
+     */
+    public function addTapa(Tapa $tapa)
+    {
+        $this->tapas[] = $tapa;
+
+        return $this;
+    }
+
+    /**
+     * Remove tapa
+     *
+     * @param Tapa $tapa
+     */
+    public function removeTapa(Tapa $tapa)
+    {
+        $this->tapas->removeElement($tapa);
+    }
+
+    /**
+     * Get tapas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTapas()
+    {
+        return $this->tapas;
     }
 }

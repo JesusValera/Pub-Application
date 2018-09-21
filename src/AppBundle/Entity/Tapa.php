@@ -63,6 +63,14 @@ class Tapa
      */
     private $top;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="tapas")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+
     /**
      * Get id.
      *
@@ -215,5 +223,29 @@ class Tapa
     public function getTop()
     {
         return $this->top;
+    }
+
+    /**
+     * Set category
+     *
+     * @param Category $category
+     *
+     * @return Tapa
+     */
+    public function setCategory(Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
