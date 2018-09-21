@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Tapa;
+use AppBundle\Form\CategoryType;
 use AppBundle\Form\TapaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,13 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/management")
- */
 class ManagementTapaController extends Controller
 {
     /**
-     * @Route("/new", name="newTapa")
+     * @Route("/newTapa", name="newTapa")
      */
     public function newTapaAction(Request $request): Response
     {
@@ -33,36 +32,78 @@ class ManagementTapaController extends Controller
             $entityManager->persist($tapaUpdated);
             $entityManager->flush();
 
-            return $this->redirectToRoute('detail', [
-                "id" => $tapaUpdated->getId()
+            return $this->redirectToRoute('detail_tapa', [
+                "id" => $tapaUpdated->getId(),
             ]);
         }
 
-        return $this->render('managementTapa/new_tapa.html.twig', [
+        return $this->render('management/new_tapa.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     private function createTapaObj(Tapa $tapa): Tapa
     {
+        $fileName = $this->getPictureName($tapa->getPicture());
+        $tapa->setPicture($fileName);
         $tapa->setCreationDate(new \DateTime());
-        /** @var File $file */
-        $file = $tapa->getPicture();
 
+        return $tapa;
+    }
+
+    /**
+     * @Route("/newCategory", name="newCategory")
+     */
+    public function newCategoryAction(Request $request): Response
+    {
+        $category = new Category();
+
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $categoryUpdated = $this->createCategoryObject($category);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($categoryUpdated);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('detail_category', [
+                "id" => $categoryUpdated->getId(),
+            ]);
+        }
+
+        return $this->render('management/new_category.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    private function createCategoryObject(Category $category): Category
+    {
+        $fileName = $this->getPictureName($category->getPicture());
+        $category->setPicture($fileName);
+
+        return $category;
+    }
+
+    private function getPictureName(?File $file): string
+    {
         if (!isset($file)) {
-            $tapa->setPicture('nopic.jpg');
+            $DEFAULT_PICTURE_NAME = 'nopic.jpg';
 
-            return $tapa;
+            return $DEFAULT_PICTURE_NAME;
         }
 
         $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
-        $file->move(
-            $this->getParameter('tapasImg_dir'),
-            $fileName
-        );
-        $tapa->setPicture($fileName);
+        $this->movePictureFromTmpToProject($file, $fileName);
 
-        return $tapa;
+        return $fileName;
+    }
+
+    private function movePictureFromTmpToProject(File $file, $fileName)
+    {
+        $file->move($this->getParameter('tapasImg_dir'), $fileName);
     }
 
     private function generateUniqueFileName(): string
@@ -71,4 +112,5 @@ class ManagementTapaController extends Controller
         // uniqid(), which is based on timestamps.
         return md5(uniqid());
     }
+
 }

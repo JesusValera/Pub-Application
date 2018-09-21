@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Tapa;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +46,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/tapa/{id}", name="detail")
+     * @Route("/tapa/{id}", name="detail_tapa")
      */
     public function tapaDetailAction($id = null)
     {
@@ -56,8 +57,26 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Tapa not found');
         }
 
-        return $this->render('default/detail.html.twig', [
+        return $this->render('default/detail_tapa.html.twig', [
             'tapa' => $tapa
         ]);
     }
+
+    /**
+     * @Route("/category/{id}", name="detail_category")
+     */
+    public function categoryDetailAction($id = null)
+    {
+        $repository = $this->getDoctrine()->getRepository(Category::class);
+        $category = $repository->find($id);
+
+        if (!isset($category)) {
+            throw $this->createNotFoundException('Tapa not found');
+        }
+
+        return $this->render('default/detail_category.html.twig', [
+            'category' => $category
+        ]);
+    }
+
 }

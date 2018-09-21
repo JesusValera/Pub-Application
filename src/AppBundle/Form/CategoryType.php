@@ -4,15 +4,13 @@ namespace AppBundle\Form;
 
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TapaType extends AbstractType
+class CategoryType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,15 +20,11 @@ class TapaType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', CKEditorType::class)
-            ->add('ingredients', TextareaType::class)
             ->add('picture', FileType::class, [
                 'required' => false,
                 'attr' => ['onchange' => 'onChange(event)']
             ])
-            ->add('top', CheckboxType::class, [
-                'required' => false,
-            ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, ['label' => 'New category']);
     }
 
     /**
@@ -39,7 +33,7 @@ class TapaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Tapa',
+            'data_class' => 'AppBundle\Entity\Category',
         ]);
     }
 
@@ -48,7 +42,7 @@ class TapaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_tapa';
+        return 'appbundle_category';
     }
 
 
