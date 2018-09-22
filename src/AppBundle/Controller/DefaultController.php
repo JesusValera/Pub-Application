@@ -16,29 +16,17 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request, $page = 1)
     {
-        $tapas = $this->executeTapasQuery($page);
+        $repository = $this->getDoctrine()
+            ->getRepository(Tapa::class);
+
+        $tapas = $repository->tapasPage($page);
+        $totalPages = $repository->getNumberOfPages();
 
         return $this->render('default/index.html.twig', [
-            'tapas' => $tapas,
-            'page'  => $page,
+            'tapas'      => $tapas,
+            'page'       => $page,
+            'totalPages' => $totalPages,
         ]);
-    }
-
-    private function executeTapasQuery($page): array
-    {
-        $NUM_TAPAS = 3;
-        $page = ($page <= 0) ? 1 : $page;
-
-        $repository = $this->getDoctrine()->getRepository(Tapa::class);
-
-        $query = $repository->createQueryBuilder('t')
-            ->where('t.top = 1')
-            ->setFirstResult($NUM_TAPAS * ($page - 1))
-            ->setMaxResults($NUM_TAPAS)
-            ->orderBy('t.id', 'ASC')
-            ->getQuery();
-
-        return $query->getResult();
     }
 
     /**

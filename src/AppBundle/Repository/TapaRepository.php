@@ -10,4 +10,28 @@ namespace AppBundle\Repository;
  */
 class TapaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function tapasPage($page = 1, $NUM_TAPAS = 3)
+    {
+        $page = ($page <= 0) ? 1 : $page;
+
+        $query = $this->createQueryBuilder('t')
+            ->where('t.top = 1')
+            ->setFirstResult($NUM_TAPAS * ($page - 1))
+            ->setMaxResults($NUM_TAPAS)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function getNumberOfPages($NUM_TAPAS = 3): int
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select("count(t.id) / $NUM_TAPAS")
+            ->where('t.top = 1')
+            ->getQuery();
+
+        return ceil($query->getResult()[0][1]);
+    }
+
 }

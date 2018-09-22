@@ -80,7 +80,7 @@
             </li>
         {% endif %}
 
-        {% for i in 1..3 %}
+        {% for i in 1..totalPages %}
             <li class="page-item {% if page == i %}active{% endif %}">
                 <a class="page-link" href="{{ path('homepage', {'page':i }) }}">{{ i }}
                     {% if page == i %}<span class="sr-only">(current)</span>{% endif %}
@@ -88,7 +88,7 @@
             </li>
         {% endfor %}
 
-        {% if page < 3 %}
+        {% if page < totalPages %}
             <li class="page-item">
                 <a class="page-link" href="{{ path('homepage', {'page':(page + 1) }) }}" aria-label="Next">
                     <span aria-hidden="true">Next</span>
