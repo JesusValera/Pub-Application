@@ -12,20 +12,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/{page}", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $page = 1)
     {
-        /*return $this->render('index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
-        ]);*/
-
-        $repository = $this->getDoctrine()->getRepository(Tapa::class);
-        $tapas = $repository->findByTop(1);
+        $tapas = $this->executeTapasQuery($page);
 
         return $this->render('default/index.html.twig', [
-            'tapas' => $tapas
+            'tapas' => $tapas,
+            'page'  => $page,
         ]);
+    }
+
+    private function executeTapasQuery($page): array
+    {
+        $NUM_TAPAS = 3;
+        $page = ($page <= 0) ? 1 : $page;
+
+        $repository = $this->getDoctrine()->getRepository(Tapa::class);
+
+        $query = $repository->createQueryBuilder('t')
+            ->where('t.top = 1')
+            ->setFirstResult($NUM_TAPAS * ($page - 1))
+            ->setMaxResults($NUM_TAPAS)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 
     /**
@@ -42,7 +55,7 @@ class DefaultController extends Controller
     public function contactAction($location = 'Murcia Valencia Madrid')
     {
         return $this->render('default/contact.html.twig', [
-            'location' => explode(' ', $location)
+            'location' => explode(' ', $location),
         ]);
     }
 
@@ -59,7 +72,7 @@ class DefaultController extends Controller
         }
 
         return $this->render('default/detail_tapa.html.twig', [
-            'tapa' => $tapa
+            'tapa' => $tapa,
         ]);
     }
 
@@ -76,7 +89,7 @@ class DefaultController extends Controller
         }
 
         return $this->render('default/detail_category.html.twig', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -93,7 +106,7 @@ class DefaultController extends Controller
         }
 
         return $this->render('default/detail_ingredient.html.twig', [
-            'ingredient' => $ingredient
+            'ingredient' => $ingredient,
         ]);
     }
 
