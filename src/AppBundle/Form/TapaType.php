@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,9 +24,13 @@ class TapaType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', CKEditorType::class)
             ->add('ingredients', TextareaType::class)
+            ->add('category', EntityType::class, [
+                'class'        => 'AppBundle:Category',
+                'choice_label' => 'name',
+            ])
             ->add('picture', FileType::class, [
                 'required' => false,
-                'attr' => ['onchange' => 'onChange(event)']
+                'attr'     => ['onchange' => 'onChange(event)'],
             ])
             ->add('top', CheckboxType::class, [
                 'required' => false,

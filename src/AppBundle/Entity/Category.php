@@ -169,4 +169,9 @@ class Category
     {
         return $this->tapas;
     }
+
+    public function __toString()
+    {
+        return "$this->name";
+    }
 }
