@@ -23,7 +23,11 @@ class TapaType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', CKEditorType::class)
-            ->add('ingredients', TextareaType::class)
+            ->add('ingredients', EntityType::class, [
+                'class' => 'AppBundle:Ingredient',
+                'choice_label' => 'name',
+                'multiple' => true,
+            ])
             ->add('category', EntityType::class, [
                 'class'        => 'AppBundle:Category',
                 'choice_label' => 'name',

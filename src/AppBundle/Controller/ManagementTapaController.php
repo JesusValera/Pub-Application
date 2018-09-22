@@ -3,8 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Ingredient;
 use AppBundle\Entity\Tapa;
 use AppBundle\Form\CategoryType;
+use AppBundle\Form\IngredientType;
 use AppBundle\Form\TapaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
@@ -75,6 +77,32 @@ class ManagementTapaController extends Controller
         }
 
         return $this->render('management/new_category.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/newIngredient", name="newIngredient")
+     */
+    public function newIngredientAction(Request $request): Response
+    {
+        $ingredient = new Ingredient();
+
+        $form = $this->createForm(IngredientType::class, $ingredient);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($ingredient);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('detail_ingredient', [
+                "id" => $ingredient->getId(),
+            ]);
+        }
+
+        return $this->render('management/new_ingredient.html.twig', [
             'form' => $form->createView(),
         ]);
     }

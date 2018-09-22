@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {#{{ dump(ingredient) }}#}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <h1 class="mt-4 mb-3">Ingredient</h1>
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <h3 class="my-3">{{ ingredient.name|raw }}</h3>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <br>
+
+{% endblock %}

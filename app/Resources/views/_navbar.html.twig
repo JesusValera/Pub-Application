@@ -15,14 +15,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Tapas</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('newTapa') }}">New Tapa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('newCategory') }}">New Category</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        New
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="{{ path('newTapa') }}">Tapa</a>
+                        <a class="dropdown-item" href="{{ path('newCategory') }}">Category</a>
+                        <a class="dropdown-item" href="{{ path('newIngredient') }}">Ingredient</a>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ path('contact') }}" id="navbarDropdownBlog" data-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" href="{{ path('contact') }}" id="navbarDropdownBlog"
+                       data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Pubs
                     </a>

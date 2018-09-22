@@ -36,9 +36,13 @@ class Tapa
     private $description;
 
     /**
-     * @var string
+     * @var Ingredient $ingredients
      *
-     * @ORM\Column(name="ingredients", type="text")
+     * @ORM\ManyToMany(targetEntity="Ingredient")
+     * @ORM\JoinTable(name="ingredients_tapas",
+     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="ingredients", referencedColumnName="id")}
+     *      )
      */
     private $ingredients;
 
@@ -63,13 +67,16 @@ class Tapa
      */
     private $top;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="tapas")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
+    public function __construct()
+    {
+        $this->ingredients = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -127,30 +134,6 @@ class Tapa
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set ingredients.
-     *
-     * @param string $ingredients
-     *
-     * @return Tapa
-     */
-    public function setIngredients($ingredients)
-    {
-        $this->ingredients = $ingredients;
-
-        return $this;
-    }
-
-    /**
-     * Get ingredients.
-     *
-     * @return string
-     */
-    public function getIngredients()
-    {
-        return $this->ingredients;
     }
 
     /**
@@ -247,5 +230,41 @@ class Tapa
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add ingredient.
+     *
+     * @param \AppBundle\Entity\Ingredient $ingredient
+     *
+     * @return Tapa
+     */
+    public function addIngredient(\AppBundle\Entity\Ingredient $ingredient)
+    {
+        $this->ingredients[] = $ingredient;
+
+        return $this;
+    }
+
+    /**
+     * Remove ingredient.
+     *
+     * @param \AppBundle\Entity\Ingredient $ingredient
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeIngredient(\AppBundle\Entity\Ingredient $ingredient)
+    {
+        return $this->ingredients->removeElement($ingredient);
+    }
+
+    /**
+     * Get ingredients.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIngredients()
+    {
+        return $this->ingredients;
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Ingredient;
 use AppBundle\Entity\Tapa;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,11 +72,28 @@ class DefaultController extends Controller
         $category = $repository->find($id);
 
         if (!isset($category)) {
-            throw $this->createNotFoundException('Tapa not found');
+            throw $this->createNotFoundException('Category not found');
         }
 
         return $this->render('default/detail_category.html.twig', [
             'category' => $category
+        ]);
+    }
+
+    /**
+     * @Route("/ingredient/{id}", name="detail_ingredient")
+     */
+    public function ingredientDetailAction($id = null)
+    {
+        $repository = $this->getDoctrine()->getRepository(Ingredient::class);
+        $ingredient = $repository->find($id);
+
+        if (!isset($ingredient)) {
+            throw $this->createNotFoundException('Ingredient not found');
+        }
+
+        return $this->render('default/detail_ingredient.html.twig', [
+            'ingredient' => $ingredient
         ]);
     }
 
