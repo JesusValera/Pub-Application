@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Tapa
@@ -52,6 +53,11 @@ class Tapa
      * @ORM\Column(name="picture", type="string", length=255)
      */
     private $picture;
+
+    /**
+     * @var $pictureFile File
+     */
+    private $pictureFile;
 
     /**
      * @var \DateTime
@@ -158,6 +164,22 @@ class Tapa
     public function getPicture()
     {
         return $this->picture;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * @param File $pictureFile
+     */
+    public function setPictureFile(File $pictureFile)
+    {
+        $this->pictureFile = $pictureFile;
     }
 
     /**

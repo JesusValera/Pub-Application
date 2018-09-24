@@ -7,12 +7,13 @@ use AppBundle\Entity\Ingredient;
 use AppBundle\Entity\Tapa;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/{page}", name="homepage")
+     * @Route("/{page}", name="homepage", requirements={"page"="\d+"})
      */
     public function indexAction(Request $request, $page = 1)
     {

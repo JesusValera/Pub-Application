@@ -46,7 +46,7 @@ class ManagementTapaController extends Controller
 
     private function createTapaObj(Tapa $tapa): Tapa
     {
-        $fileName = $this->getPictureName($tapa->getPicture());
+        $fileName = $this->getPictureName($tapa->getPictureFile());
         $tapa->setPicture($fileName);
         $tapa->setCreationDate(new \DateTime());
 
@@ -109,7 +109,7 @@ class ManagementTapaController extends Controller
 
     private function createCategoryObject(Category $category): Category
     {
-        $fileName = $this->getPictureName($category->getPicture());
+        $fileName = $this->getPictureName($category->getPictureFile());
         $category->setPicture($fileName);
 
         return $category;

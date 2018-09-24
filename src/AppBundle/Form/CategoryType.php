@@ -20,7 +20,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', CKEditorType::class)
-            ->add('picture', FileType::class, [
+            ->add('pictureFile', FileType::class, [
                 'required' => false,
                 'attr' => ['onchange' => 'onChange(event)']
             ])

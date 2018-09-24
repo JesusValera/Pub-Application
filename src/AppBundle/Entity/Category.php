@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * CategoryTapa
@@ -43,6 +44,11 @@ class Category
      * @ORM\Column(name="picture", type="string", length=255)
      */
     private $picture;
+
+    /**
+     * @var $pictureFile File
+     */
+    private $pictureFile;
 
     /**
      * @ORM\OneToMany(targetEntity="Tapa", mappedBy="category")
@@ -137,6 +143,19 @@ class Category
     }
 
     /**
+     * @return null|File
+     */
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    public function setPictureFile(File $pictureFile)
+    {
+        $this->pictureFile = $pictureFile;
+    }
+
+    /**
      * Add tapa
      *
      * @param Tapa $tapa
@@ -174,4 +193,5 @@ class Category
     {
         return "$this->name";
     }
+
 }

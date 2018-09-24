@@ -32,7 +32,7 @@ class TapaType extends AbstractType
                 'class'        => 'AppBundle:Category',
                 'choice_label' => 'name',
             ])
-            ->add('picture', FileType::class, [
+            ->add('pictureFile', FileType::class, [
                 'required' => false,
                 'attr'     => ['onchange' => 'onChange(event)'],
             ])
