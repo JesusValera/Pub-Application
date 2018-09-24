@@ -167,19 +167,23 @@ class Tapa
     }
 
     /**
+     * @param File $pictureFile
+     *
+     * @return Tapa
+     */
+    public function setPictureFile(File $pictureFile): Tapa
+    {
+        $this->pictureFile = $pictureFile;
+
+        return $this;
+    }
+
+    /**
      * @return null|File
      */
     public function getPictureFile(): ?File
     {
         return $this->pictureFile;
-    }
-
-    /**
-     * @param File $pictureFile
-     */
-    public function setPictureFile(File $pictureFile)
-    {
-        $this->pictureFile = $pictureFile;
     }
 
     /**

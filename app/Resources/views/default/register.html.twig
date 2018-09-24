@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'form/theme_fields_form.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <h1 class="my-4 mb-3">Jesus' Pub
+        <small>Register</small></h1>
+
+        <div class="row">
+
+            <div class="row col-lg-6">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+
+            <div class="row col-lg-6">
+                <h2>Register?</h2>
+                <p>Registering in the website you will be able to book in the restaurant really easy and fast.</p>
+                <p>Through the insertion of an e-mail and a password, you will book a table or cancel it.</p>
+            </div>
+        </div>
+
+    </div>
+    <br>
+{% endblock %}
