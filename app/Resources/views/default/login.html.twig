@@ -6,25 +6,45 @@
 
     <div class="container">
 
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+        <h1 class="my-4 mb-3">Jesus' Pub
+            <small>Login</small></h1>
+        <div class="row">
 
-        <form action="{{ path('login') }}" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}"/>
+            <div class="row col-lg-6">
+                {% if error %}
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" class="form-control" name="_password"/>
+                <form action="{{ path('login') }}" method="post">
+                    <div class="control-group form-group">
+                        <div class="controls">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}"/>
+                        </div>
+                    </div>
 
-            {#
-                If you want to control the URL the user
-                is redirected to on success (more details below)
-                <input type="hidden" name="_target_path" value="/account" />
-            #}
+                    <div class="control-group form-group">
+                        <div class="controls">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" class="form-control" name="_password"/>
+                        </div>
+                    </div>
+                    {# Controlling the URL when the user is redirected to on success. #}
+                    <input type="hidden" name="_target_path" value="{{ path('homepage') }}" />
 
-            <button type="submit">login</button>
-        </form>
+                    <button type="submit" class="btn btn-primary">Login</button>
 
+                </form>
+            </div>
+
+            <div class="row col-lg-6">
+                <h2>Login</h2>
+                <p>Registering in the website you will be able to book in the restaurant really easy and fast.</p>
+                <p>Through the insertion of an e-mail and a password, you will book a table or cancel it.</p>
+                <p>You can register right now pressing <a href="{{ path('register') }}">HERE</a>.</p>
+            </div>
+        </div>
+
+        <br>
     </div>
 {% endblock %}

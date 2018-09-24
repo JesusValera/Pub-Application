@@ -7,8 +7,10 @@ security:
 
   # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
   providers:
-    in_memory:
-      memory: ~
+    mysql_provider:
+      entity:
+        class: AppBundle:User
+        property: email
 
   firewalls:
     # disables authentication for assets and the profiler, adapt it according to your needs
@@ -18,7 +20,14 @@ security:
 
     main:
       anonymous: ~
+      provider: mysql_provider
       logout_on_user_change: true
+      form_login:
+        login_path: login
+        check_path: login
+      logout:
+        path:   /logout
+        target: /
       # activate different ways to authenticate
 
       # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -26,3 +35,5 @@ security:
 
       # https://symfony.com/doc/current/security/form_login_setup.html
       #form_login: ~
+
+
