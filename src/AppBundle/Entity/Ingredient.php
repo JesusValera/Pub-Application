@@ -28,10 +28,7 @@ class Ingredient
      */
     private $name;
 
-
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -39,13 +36,6 @@ class Ingredient
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Ingredient
-     */
     public function setName($name)
     {
         $this->name = $name;
@@ -53,11 +43,6 @@ class Ingredient
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
     public function getName()
     {
         return $this->name;

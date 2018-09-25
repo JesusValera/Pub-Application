@@ -53,7 +53,7 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->roles = array('ROLE_USER');
+        $this->roles = ['ROLE_USER'];
         $this->active = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
@@ -69,9 +69,11 @@ class User implements UserInterface, \Serializable
         return $this->email;
     }
 
-    public function setUsername($email)
+    public function setUsername($email): User
     {
         $this->email = $email;
+
+        return $this;
     }
 
     public function getEmail()
@@ -122,7 +124,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getRoles(): array
+    public function getRoles()
     {
         return $this->roles;
     }
