@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -51,10 +52,16 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="user")
+     */
+    private $bookings;
+
     public function __construct()
     {
-        $this->active = true;
+        $this->bookings = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
+        $this->active = true;
     }
 
     public function getId()
@@ -138,9 +145,38 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addBooking(Booking $booking)
+    {
+        $this->bookings[] = $booking;
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking)
+    {
+        return $this->bookings->removeElement($booking);
+    }
+
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 
     public function getSalt()

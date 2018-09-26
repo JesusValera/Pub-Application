@@ -125,4 +125,14 @@ class Category
         return $this->tapas;
     }
 
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

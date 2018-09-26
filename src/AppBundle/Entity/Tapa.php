@@ -62,7 +62,7 @@ class Tapa
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creation_date", type="datetimetz")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
     private $creationDate;
 
