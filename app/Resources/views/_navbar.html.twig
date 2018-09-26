@@ -13,19 +13,33 @@
                     <a class="nav-link" href="{{ path('about_us') }}">About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Tapas</a>
+                    <a class="nav-link" href="{{ path('tapas') }}">Tapas</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        New
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="{{ path('newTapa') }}">Tapa</a>
-                        <a class="dropdown-item" href="{{ path('newCategory') }}">Category</a>
-                        <a class="dropdown-item" href="{{ path('newIngredient') }}">Ingredient</a>
-                    </div>
-                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            New
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                            <a class="dropdown-item" href="{{ path('newTapa') }}">Tapa</a>
+                            <a class="dropdown-item" href="{{ path('newCategory') }}">Category</a>
+                            <a class="dropdown-item" href="{{ path('newIngredient') }}">Ingredient</a>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Booking
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                            <a class="dropdown-item" href="{{ path('bookings') }}">List bookings</a>
+                            <a class="dropdown-item" href="{{ path('newBooking') }}">New booking</a>
+                        </div>
+                    </li>
+                {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{{ path('contact') }}" id="navbarDropdownBlog"
                        data-toggle="dropdown"

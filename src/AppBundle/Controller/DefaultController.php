@@ -147,4 +147,18 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/tapas", name="tapas")
+     */
+    public function listTapasAction()
+    {
+        $repository = $this->getDoctrine()->getRepository(Tapa::class);
+        $tapas = $repository->findAll();
+
+        return $this->render('default/list_tapas.html.twig', [
+            'tapas' => $tapas,
+        ]);
+    }
+
+
 }
