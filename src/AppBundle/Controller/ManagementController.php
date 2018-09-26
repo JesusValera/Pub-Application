@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/management")
  */
-class ManagementTapaController extends Controller
+class ManagementController extends Controller
 {
     /**
      * @Route("/newTapa", name="newTapa")

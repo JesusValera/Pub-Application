@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -47,16 +47,14 @@ class User implements UserInterface, \Serializable
     private $active;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json_array")
      */
-    private $roles;
+    private $roles = [];
 
     public function __construct()
     {
-        $this->roles = ['ROLE_USER'];
         $this->active = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid('', true));
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId()
@@ -112,6 +110,22 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @Assert\IsTrue(message="The password cannot match your email.")
+     */
+    public function isPasswordSafe()
+    {
+        return $this->email !== $this->plainPassword;
+    }
+
+    /**
+     * @Assert\IsTrue(message="The password must be at least 4 characters.")
+     */
+    public function isPasswordStrong()
+    {
+        return strlen($this->plainPassword) >= 4;
+    }
+
     public function isActive()
     {
         return $this->active;
@@ -127,13 +141,6 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         return $this->roles;
-    }
-
-    public function setRoles($roles): User
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 
     public function getSalt()
