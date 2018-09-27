@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Booking
@@ -38,6 +39,13 @@ class Booking
      * @var $diner int
      *
      * @ORM\Column(name="diners", type="integer")
+     *
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 12,
+     *      minMessage = "You must be at least {{ limit }} diners",
+     *      maxMessage = "You cannot be more than {{ limit }} diners"
+     *     )
      */
     private $diner;
 
