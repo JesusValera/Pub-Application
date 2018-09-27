@@ -46,7 +46,7 @@ class ManagementBookingController extends Controller
         return $this->generateForm($request, $booking);
     }
 
-    public function generateForm(Request $request, $booking)
+    public function generateForm(Request $request, Booking $booking)
     {
         $form = $this->createForm(BookingType::class, $booking);
 
@@ -68,4 +68,20 @@ class ManagementBookingController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/deleteBooking/{id}", name="deleteBooking")
+     */
+    public function deleteBookingAction($id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $booking = $repository->find($id);
+
+        if (isset($booking)) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($booking);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('bookings');
+    }
 }

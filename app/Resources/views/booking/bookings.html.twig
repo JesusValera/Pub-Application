@@ -10,14 +10,14 @@
         </h1>
 
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Diner's number</th>
+                        <th scope="col">Diners</th>
                         <th scope="col">Observations</th>
                         <th scope="col">Options</th>
                     </tr>
@@ -28,14 +28,39 @@
                             <td>{{ booking.date|date("Y/m/d H:i") }}</td>
                             <td>{{ booking.diner }}</td>
                             <td>{{ booking.observations[0:200]|raw }}</td>
-                            <td><a href="{{ path('updateBooking', {'id' : booking.id}) }}"><i class="fas fa-pen"></i></a></td>
+                            <td class="td-with-icons">
+                                <a class="left-icon-pos" href="{{ path('updateBooking', {'id' : booking.id}) }}"><i class="fas fa-pen"></i></a>
+                                <a class="right-icon-pos" href="#" onclick="return controlDelete('{{ path('deleteBooking', {'id' : booking.id}) }}', '{{ booking.date|date("Y/m/d H:i") }}')"><i class="fas fa-trash-alt"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
     </div>
     <br>
     <br>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .td-with-icons {
+            white-space: nowrap;
+            position: relative;
+        }
+        .right-icon-pos {
+            position: absolute;
+            right: 15px;
+        }
+        .left-icon-pos {
+            position: absolute;
+            left: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{ asset('js/sweetAlertConfirm.js') }}"></script>
 {% endblock %}
