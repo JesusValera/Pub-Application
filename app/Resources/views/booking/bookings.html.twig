@@ -19,6 +19,7 @@
                         <th scope="col">Date</th>
                         <th scope="col">Diner's number</th>
                         <th scope="col">Observations</th>
+                        <th scope="col">Options</th>
                     </tr>
                     </thead>
                     {% for booking in bookings %}
@@ -26,8 +27,8 @@
                             <th scope="row">{{ booking.id }}</th>
                             <td>{{ booking.date|date("Y/m/d H:i") }}</td>
                             <td>{{ booking.diner }}</td>
-                            <td>{{ booking.observations|raw }}</td>
-
+                            <td>{{ booking.observations[0:200]|raw }}</td>
+                            <td><a href="{{ path('updateBooking', {'id' : booking.id}) }}"><i class="fas fa-pen"></i></a></td>
                         </tr>
                     {% endfor %}
                 </table>

@@ -20,7 +20,7 @@ class ManagementBookingController extends Controller
     public function bookingsAction(Request $request): Response
     {
         $repository = $this->getDoctrine()->getRepository(Booking::class);
-        $bookings = $repository->findAll();
+        $bookings = $repository->findByUser($this->getUser(), ['date' => 'ASC']);
 
         return $this->render('booking/bookings.html.twig', [
             'bookings' => $bookings,
@@ -32,8 +32,22 @@ class ManagementBookingController extends Controller
      */
     public function newBookingAction(Request $request): Response
     {
-        $booking = new Booking();
+        return $this->generateForm($request, new Booking());
+    }
 
+    /**
+     * @Route("/updateBooking/{id}", name="updateBooking")
+     */
+    public function updateBookingAction(Request $request, $id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $booking = $repository->find($id);
+
+        return $this->generateForm($request, $booking);
+    }
+
+    public function generateForm(Request $request, $booking)
+    {
         $form = $this->createForm(BookingType::class, $booking);
 
         $form->handleRequest($request);

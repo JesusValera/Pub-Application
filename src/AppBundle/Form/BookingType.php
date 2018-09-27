@@ -20,6 +20,8 @@ class BookingType extends AbstractType
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
+                'format' => 'YYYY/MM/dd HH:mm',
+                'attr'   => ['placeholder' => 'YYYY/MM/dd HH:mm'],
             ])
             ->add('diner', IntegerType::class, [
                 'label' => 'Diner\'s number',
