@@ -7,6 +7,7 @@ use AppBundle\Entity\Ingredient;
 use AppBundle\Entity\Tapa;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Repository\TapaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class DefaultController extends Controller
         $repository = $this->getDoctrine()
             ->getRepository(Tapa::class);
 
+        /** @var TapaRepository $repository */
         $tapas = $repository->tapasPage($page);
         $totalPages = $repository->getNumberOfPages();
 
