@@ -60,13 +60,15 @@ class DefaultController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Tapa::class);
         $tapa = $repository->find($id);
+        $relatedTapas = $repository->findRelatedTapas($id, $tapa->getCategory()->getId());
 
         if (!isset($tapa)) {
             throw $this->createNotFoundException('Tapa not found');
         }
 
         return $this->render('default/detail_tapa.html.twig', [
-            'tapa' => $tapa,
+            'tapa'         => $tapa,
+            'relatedTapas' => $relatedTapas,
         ]);
     }
 

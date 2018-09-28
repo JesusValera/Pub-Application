@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+
 /**
  * TapaRepository
  *
@@ -48,4 +50,35 @@ class TapaRepository extends \Doctrine\ORM\EntityRepository
         return $pages;
     }
 
+    public function findRelatedTapas($id, $category)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult('AppBundle:Tapa', 't');
+        $rsm->addFieldResult('t', 'id', 'id');
+        $rsm->addFieldResult('t', 'name', 'name');
+        $rsm->addFieldResult('t', 'picture', 'picture');
+
+        // This query selects 4 tapas from the DB with the same category,
+        //  if there aren't enough tapas with the same category, it will get
+        //  random tapas.
+        // The current tapa won't ever be displayed as a related tapa.
+        $result = $this->getEntityManager()->createNativeQuery(
+            "(SELECT t.id, t.name, t.picture
+                 FROM tapa t
+                 WHERE t.category_id = :category
+                 AND t.id != :id
+                 ORDER BY t.category_id DESC)
+                UNION
+                (SELECT t2.id, t2.name, t2.picture 
+                 FROM tapa t2
+                 WHERE t2.category_id != :category
+                 AND t2.id != :id
+                 ORDER BY t2.category_id DESC)
+                LIMIT 4", $rsm)
+            ->setParameter('category', $category)
+            ->setParameter('id', $id)
+            ->getResult();
+
+        return $result;
+    }
 }

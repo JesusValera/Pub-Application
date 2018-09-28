@@ -19,54 +19,62 @@
             </div>
 
             <div class="col-md-4">
-                <h3 class="my-3">{{ tapa.name|raw }}</h3>
-                <p>{{ tapa.description|raw }}</p>
-                <h3 class="my-3">Ingredients</h3>
+                <h2 class="my-3">{{ tapa.name|raw }}</h2>
+                <br>
 
+                <h3 class="my-3">Category</h3>
+                <p>{{ tapa.category.name }}</p>
+                <br>
+
+                <h3 class="my-3">Ingredients</h3>
                 <ul>
                     {% for ingredient in tapa.ingredients %}
                         <li>{{ ingredient.name }}</li>
                     {% endfor %}
                 </ul>
-
             </div>
 
+            <div class="col-md-12">
+
+                <br>
+                <h3>Description</h3>
+                <p>{{ tapa.description|raw }}</p>
+            </div>
         </div>
         <!-- /.row -->
-
-        <!-- Related Projects Row -->
-        <h3 class="my-4">Related Projects</h3>
+        <br>
+        <hr>
+        <!-- Random tapas Row -->
+        <h3 class="my-4">Random tapas</h3>
 
         <div class="row">
 
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
+            {% for relatedTapa in relatedTapas %}
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        <a href="{{ path('detail_tapa', {'id':relatedTapa.id}) }}">
+                            <img class="random-imgs card-img-top" src="{{ asset( imgPath ~ relatedTapa.picture) }}"
+                                 alt=""></a>
+                        <div class="card-body">
+                            <p class="card-text">{{ relatedTapa.name }}</p>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-4">
-                <a href="#">
-                    <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                </a>
-            </div>
-
+            {% endfor %}
         </div>
         <!-- /.row -->
         <br>
 
     </div>
 
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .random-imgs {
+            height: 200px;
+            width: 100%;
+        }
+    </style>
 {% endblock %}
