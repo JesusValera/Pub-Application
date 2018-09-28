@@ -20,14 +20,13 @@ class DefaultController extends Controller
     /**
      * @Route("/{page}", name="homepage", requirements={"page"="\d+"})
      */
-    public function indexAction(Request $request, $page = 1)
+    public function indexAction($page = 1)
     {
         $repository = $this->getDoctrine()
             ->getRepository(Tapa::class);
 
-        /** @var TapaRepository $repository */
-        $tapas = $repository->tapasPage($page);
-        $totalPages = $repository->getNumberOfPages();
+        $tapas = $repository->findTapasInPage($page);
+        $totalPages = $repository->findTotalNumberOfPages();
 
         return $this->render('default/index.html.twig', [
             'tapas'      => $tapas,
@@ -39,7 +38,7 @@ class DefaultController extends Controller
     /**
      * @Route("/about", name="about_us")
      */
-    public function aboutUsAction(Request $request)
+    public function aboutUsAction()
     {
         return $this->render('default/about_us.html.twig');
     }
@@ -161,6 +160,5 @@ class DefaultController extends Controller
             'tapas' => $tapas,
         ]);
     }
-
 
 }

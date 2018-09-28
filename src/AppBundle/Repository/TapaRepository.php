@@ -10,9 +10,9 @@ namespace AppBundle\Repository;
  */
 class TapaRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function tapasPage($page = 1, $NUM_TAPAS = 3)
+    public function findTapasInPage($page = 1, $NUM_TAPAS = 3)
     {
-        $page = ($page <= 0) ? 1 : $page;
+        $page = ($page > 0) ? $page : 1;
 
         $query = $this->createQueryBuilder('t')
             ->where('t.top = 1')
@@ -24,14 +24,28 @@ class TapaRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function getNumberOfPages($NUM_TAPAS = 3): int
+    public function findTotalNumberOfPages($NUM_TAPAS = 3)
     {
-        $query = $this->createQueryBuilder('t')
-            ->select("count(t.id) / $NUM_TAPAS")
-            ->where('t.top = 1')
-            ->getQuery();
+        $config = new \Doctrine\ORM\Configuration();
+        $config->addCustomNumericFunction('Ceil', 'AppBundle\Query\Ceil');
 
-        return ceil($query->getResult()[0][1]);
+        $pages = $this->getEntityManager()->createQuery("
+            SELECT CEIL(COUNT(t.id) / :numTapas )
+            FROM AppBundle:Tapa t
+            WHERE t.top = 1
+            ")
+            ->setParameter('numTapas', $NUM_TAPAS)
+            ->getResult()[0][1];
+
+        /* THE SAME. */
+        /*$pages = $this->createQueryBuilder('t')
+            ->select("CEIL(count(t.id) / :numTapas"))
+            ->where('t.top = 1')
+            ->getQuery()
+            ->setParameter('numTapas', $NUM_TAPAS)
+            ->getResult()[0][1];*/
+
+        return $pages;
     }
 
 }
